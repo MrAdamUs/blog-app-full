@@ -1,6 +1,7 @@
 import React from "react"
 import Edit from "../img/edit.png"
 import Delete from "../img/delete.png"
+import Menu from "./Menu"
 import { Link } from "react-router-dom"
 
 const Single = () => {
@@ -46,7 +47,9 @@ const Single = () => {
           maiores cumque asperiores.
         </p>
       </div>
-      <div className='menu'>m</div>
+      <div className='menu'>
+        <Menu />
+      </div>
     </div>
   )
 }

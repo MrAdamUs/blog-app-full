@@ -1,5 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import axios from "axios"
 
 const Home = () => {
   const posts = [
@@ -28,6 +29,18 @@ const Home = () => {
       img: "https://images.pexels.com/photos/6157049/pexels-photo-6157049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     },
   ]
+
+  const handleClick = async (e) => {
+    e.preventDefault()
+
+    try {
+      const res = await axios.get("http://localhost:8800/api/posts/test")
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className='home'>
       <div className='posts'>
@@ -41,7 +54,7 @@ const Home = () => {
                 <h1>{post.title}</h1>
               </Link>
               <p>{post.desc}</p>
-              <button>Read More</button>
+              <button onClick={handleClick}>Read More</button>
             </div>
           </div>
         ))}

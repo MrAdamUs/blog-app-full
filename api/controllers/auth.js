@@ -5,7 +5,7 @@ export const register = (req, res) => {
   const q = "SELECT * FROM users WHERE email = ? OR username = ?"
 
   db.query(q, [req.body.email, req.body.username], (error, data) => {
-    if (error) return res.json(err)
+    if (error) return res.json(error)
     if (data.length) return res.status(409).json("User already exists!")
 
     //HASH the password and create a user

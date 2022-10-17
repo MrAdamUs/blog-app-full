@@ -1,0 +1,4 @@
+  "web_accessible_resources": [
+    "inject-content/inject.html",
+    "inject-content/cleanslate.css"
+  ]

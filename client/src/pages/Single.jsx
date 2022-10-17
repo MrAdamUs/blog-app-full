@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react"
 import Edit from "../img/edit.png"
 import Delete from "../img/delete.png"
 import Menu from "./Menu"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import moment from "moment"
 import { AuthContext } from "../context/authContext"
 import axios from "axios"
@@ -12,13 +12,13 @@ const Single = () => {
   const location = useLocation()
 
   const postId = location.pathname.split("/")[2]
+  const navigate = useNavigate()
   const { currentUser } = useContext(AuthContext)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`http://localhost:8800/api/posts/${postId}`)
-        console.log(res.data)
         setPost(res.data)
       } catch (error) {
         console.log(error)
@@ -26,16 +26,22 @@ const Single = () => {
     }
     fetchData()
   }, [postId])
-  console.log(post)
+
+  const handleDelete = async () => {
+    console.log("delete")
+    try {
+      await axios.delete(`http://localhost:8800/api/posts/${postId}`)
+      navigate("/")
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className='single'>
       <div className='content'>
         <img src={post?.postImg} alt='' />
         <div className='user'>
-          <img
-            src='https://images.pexels.com/photos/4230630/pexels-photo-4230630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-            alt=''
-          />
+          {post.userimg && <img src={post.userimg} alt='' />}
           <div className='info'>
             <span>{post?.username}</span>
             <p>Posted {moment(post.date).fromNow()}</p>
@@ -46,7 +52,7 @@ const Single = () => {
                 <img src={Edit} alt='edit' />
               </Link>
 
-              <img src={Delete} alt='delete' />
+              <img src={Delete} alt='delete' onClick={handleDelete} />
             </div>
           )}
         </div>
@@ -54,7 +60,7 @@ const Single = () => {
         {post?.desc}
       </div>
       <div className='menu'>
-        <Menu />
+        <Menu cat={post.cat} />
       </div>
     </div>
   )
